@@ -20,12 +20,12 @@ bot.hears(['pass', 'Pass', 'Пароль', 'пароль'], ctx => {
 })
 
 
-bot.on('message','text' ctx => {
-	userDataEntries = ctx.message.text.split(' ');
-	userInfo = ctx.text
+bot.on('message', ctx => {
+	const userDataEntries = ctx.message.text.split(' ');
+	const userMsg = ctx.message.text
 
 //цифра?
-const isNumber = (i) => (i >= 0 && i <= 99999);
+const isNumber = (i) => (i >= -99999 && i <= 99999);
 //оператор?
 const isOperator = (i) => (i === '/' || i === '*' || i === '+' || i === '-' || i === ')' || i === '(');
 //приоритет оператора
@@ -100,7 +100,7 @@ try {
 					operatorTmp = 0;
 				}
 				else {
-					operatorArrTmp.push(operatorTmp);
+					arrayExit.push(operatorTmp);
 					operatorArrTmp.push(i);
 					operatorTmp = 0;
 				}
@@ -109,12 +109,13 @@ try {
 		else throw 'Символ не опознан. Операция остановлена';
 	}
 	while (operatorArrTmp.length !== 0) {
-		arrayExit.push(operatorArrTmp.shift());
+		arrayExit.push(operatorArrTmp.pop());
 	}
 	operatorTmp = 0;
 	str = arrayExit.join(' ');
-	ctx.reply('Обратная польская нотация:' + str);
-	console.log('Обратная польская нотация:' + str); //TODO заменить на вывод в чат
+	ctx.reply('Обратная польская нотация: ' +str);
+	console.log('Пример пользователя: ' +userMsg);
+	console.log('Обратная польская нотация: ' +str); //TODO заменить на вывод в чат
 	while (arrayExit.length !== 1) {
 		for (let j of arrayExit) {
 			if (isNumber(j) && operatorTmp === 0 && numTmp.length < 2) {
@@ -144,11 +145,11 @@ try {
 		arrayExit = arrayTemp;
 		arrayTemp = [];
 	}
-	ctx.reply('Сумма выражения:' + arrayExit);
+	ctx.reply('Сумма выражения: ' + arrayExit);
 	console.log('Сумма выражения:' + arrayExit);
-	console.log(userInfo);
 } catch (e) {
 	console.error(e);
+	ctx.reply(e);
 }
 }
 )
