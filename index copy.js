@@ -1,8 +1,8 @@
 const { Telegraf } = require('telegraf')
 const bot = new Telegraf('1624459162:AAHHq3De38qWSvN2MoMHDyZtdV2x22WGqMs');
-// bot.on('message', ctx => {
-//     msg = ctx.message.text.toUpperCase()
-//     ctx.reply('Все говорят '+ msg + ', а ты купи слона ))')});
+/*bot.on('message', ctx => {
+    msg = ctx.message.text.toUpperCase()
+    ctx.reply('Все говорят '+ msg + ', а ты купи слона ))')});*/
 	
 	
 bot.hears(['привет', 'Привет'], ctx => ctx.reply('Привет!Напиши орел или решка. Или можешь сгенерировать пароль из 12 символов, просто напиши "Пароль". Или напиши пример (операторы и операнды пиши через пробел!).'));
@@ -19,12 +19,12 @@ bot.hears(['pass', 'Pass', 'Пароль', 'пароль'], ctx => {
     ctx.reply(pass);
 })
 
-bot.on('message', ctx => {
-	const userDataEntries = ctx.message.text.split(' ');
-	const userMsg = ctx.message.text
+
+/*bot.on('message', ctx => {
+	userDataEntries = ctx.message.text.split(' ');
 
 //цифра?
-const isNumber = (i) => (i >= -99999 && i <= 99999);
+const isNumber = (i) => (i >= 0 && i <= 99999);
 //оператор?
 const isOperator = (i) => (i === '/' || i === '*' || i === '+' || i === '-' || i === ')' || i === '(');
 //приоритет оператора
@@ -58,7 +58,7 @@ const counting = function (arr, operatorTmp) {
 	}
 }
 // Считываем выражение
-let str = userDataEntries;
+let str = userDataEntries;//'3+7*(2*3+3+4)'.split('');
 let arrayExit = [];
 let operatorArrTmp = [];
 let operatorTmp;
@@ -66,9 +66,16 @@ let numTmp = [];
 let testNum = [];
 let exitNum = [];
 let arrayTemp = [];
+/*for (let x of str){
+	if (isNumber(x)){
+		if (arrayExit.length === 0) arrayTemp.push(x);
+		else if ()
+	}
+	else arrayExit.push(x);
+}
 try {
 	for (let i of str) {
-		if (!isNumber(i) && !isOperator(i) || i === ' ') throw 'Символ не опознан. Операция остановлена';
+		if (i === ' ') throw 'Удалите пробел в строке. Операция остановлена';
 		else if (isNumber(i)) arrayExit.push(i);
 		else if (isOperator(i)) {
 			if (operatorArrTmp.length === 0) operatorArrTmp.push(i);
@@ -99,7 +106,7 @@ try {
 					operatorTmp = 0;
 				}
 				else {
-					arrayExit.push(operatorTmp);
+					operatorArrTmp.push(operatorTmp);
 					operatorArrTmp.push(i);
 					operatorTmp = 0;
 				}
@@ -112,9 +119,8 @@ try {
 	}
 	operatorTmp = 0;
 	str = arrayExit.join(' ');
-	ctx.reply('Обратная польская нотация: ' +str);
-	console.log('Пример пользователя: ' +userMsg);
-	console.log('Обратная польская нотация: ' +str); //TODO заменить на вывод в чат
+	console.log('Обратная польская нотация:' + str); //TODO заменить на вывод в чат
+    ctx.reply('Обратная польская нотация:' + str)
 	while (arrayExit.length !== 1) {
 		for (let j of arrayExit) {
 			if (isNumber(j) && operatorTmp === 0 && numTmp.length < 2) {
@@ -139,17 +145,16 @@ try {
 			else if (isOperator(j) && numTmp.length === 0) {
 				arrayTemp.push(j);
 			}
-			else if (!isNumber(i) && !isOperator(i)) throw 'Символ не опознан. Операция остановлена в вычислении суммы выражения.';
 		}
 		arrayExit = arrayTemp;
 		arrayTemp = [];
 	}
-	ctx.reply('Сумма выражения: ' + arrayExit);
-	console.log('Сумма выражения:' + arrayExit);
+	ctx.reply('Сумма выражения:' + arrayExit); //TODO заменить на вывод в чат
 } catch (e) {
 	console.error(e);
-	ctx.reply(e);
 }
 }
-)
+)*/
+
+
 bot.launch();
