@@ -20,8 +20,9 @@ bot.hears(['pass', 'Pass', 'Пароль', 'пароль'], ctx => {
 })
 
 
-bot.on('message', ctx => {
+bot.on('message','text' ctx => {
 	userDataEntries = ctx.message.text.split(' ');
+	userInfo = ctx.text
 
 //цифра?
 const isNumber = (i) => (i >= 0 && i <= 99999);
@@ -58,7 +59,7 @@ const counting = function (arr, operatorTmp) {
 	}
 }
 // Считываем выражение
-let str = userDataEntries;//'3+7*(2*3+3+4)'.split('');
+let str = userDataEntries;
 let arrayExit = [];
 let operatorArrTmp = [];
 let operatorTmp;
@@ -68,7 +69,7 @@ let exitNum = [];
 let arrayTemp = [];
 try {
 	for (let i of str) {
-		if (!isNumber(i) && !isOperator(i)) throw 'Символ не опознан. Операция остановлена';
+		if (!isNumber(i) && !isOperator(i) || i === ' ') throw 'Символ не опознан. Операция остановлена';
 		else if (isNumber(i)) arrayExit.push(i);
 		else if (isOperator(i)) {
 			if (operatorArrTmp.length === 0) operatorArrTmp.push(i);
@@ -112,6 +113,7 @@ try {
 	}
 	operatorTmp = 0;
 	str = arrayExit.join(' ');
+	ctx.reply('Обратная польская нотация:' + str);
 	console.log('Обратная польская нотация:' + str); //TODO заменить на вывод в чат
 	while (arrayExit.length !== 1) {
 		for (let j of arrayExit) {
@@ -142,7 +144,9 @@ try {
 		arrayExit = arrayTemp;
 		arrayTemp = [];
 	}
-	ctx.reply('Сумма выражения:' + arrayExit); //TODO заменить на вывод в чат
+	ctx.reply('Сумма выражения:' + arrayExit);
+	console.log('Сумма выражения:' + arrayExit);
+	console.log(userInfo);
 } catch (e) {
 	console.error(e);
 }
