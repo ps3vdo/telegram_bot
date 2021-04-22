@@ -66,16 +66,9 @@ let numTmp = [];
 let testNum = [];
 let exitNum = [];
 let arrayTemp = [];
-/*for (let x of str){
-	if (isNumber(x)){
-		if (arrayExit.length === 0) arrayTemp.push(x);
-		else if ()
-	}
-	else arrayExit.push(x);
-}*/
 try {
 	for (let i of str) {
-		if (i === ' ') throw 'Удалите пробел в строке. Операция остановлена';
+		if (!isNumber(i) && !isOperator(i)) throw 'Символ не опознан. Операция остановлена';
 		else if (isNumber(i)) arrayExit.push(i);
 		else if (isOperator(i)) {
 			if (operatorArrTmp.length === 0) operatorArrTmp.push(i);
@@ -115,7 +108,7 @@ try {
 		else throw 'Символ не опознан. Операция остановлена';
 	}
 	while (operatorArrTmp.length !== 0) {
-		arrayExit.push(operatorArrTmp.pop());
+		arrayExit.push(operatorArrTmp.shift());
 	}
 	operatorTmp = 0;
 	str = arrayExit.join(' ');
