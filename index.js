@@ -137,6 +137,7 @@ try {
 			else if (isOperator(j) && numTmp.length === 0) {
 				arrayTemp.push(j);
 			}
+			else if (!isNumber(i) && !isOperator(i)) throw 'Символ не опознан. Операция остановлена в вычислении суммы выражения.';
 		}
 		arrayExit = arrayTemp;
 		arrayTemp = [];
