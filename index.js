@@ -4,13 +4,13 @@ const bot = new Telegraf(process.env.key);
 // bot.on('message', ctx => {
 //     msg = ctx.message.text.toUpperCase()
 //     ctx.reply('Все говорят '+ msg + ', а ты купи слона ))')});
-	
-bot.hears(['привет', 'Привет'], ctx => ctx.reply('Привет!\n Напиши орел или решка.'));
+console.log('start');
+bot.hears(['привет', 'Привет', '/start'], ctx => ctx.reply('Привет!\n Напиши орел или решка. Можешь сгенерировать пароль, набери "пароль"'));
 bot.hears(['орел', 'решка', 'Орел', 'Решка','орёл', 'Орёл'], ctx => {
     const num = Math.floor(Math.random() * 2);
     ctx.reply(num == 0 ? 'Орел' : 'Решка')
 })
-bot.hears(['pass', 'Pass', 'Пароль', 'пароль'], ctx => {
+bot.hears(['/pass', 'Pass', 'Пароль', 'пароль'], ctx => {
     let pass = '';
     const simbols = '0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM!#$%^&';
     for (let i = 0; i < 12; i++) {
@@ -66,6 +66,7 @@ let numTmp = [];
 let testNum = [];
 let exitNum = [];
 let arrayTemp = [];
+console.log('Пример пользователя: ' +userMsg);
 try {
 	for (let i of str) {
 		if (!isNumber(i) && !isOperator(i) || i === ' ') throw new Error('Символ не опознан. Операция остановлена');
@@ -114,7 +115,6 @@ try {
 	operatorTmp = 0;
 	str = arrayExit.join(' ');
 	ctx.reply('Обратная польская нотация: ' +str);
-	console.log('Пример пользователя: ' +userMsg);
 	console.log('Обратная польская нотация: ' +str); //TODO заменить на вывод в чат
 	while (arrayExit.length !== 1) {
 		for (let j of arrayExit) {
