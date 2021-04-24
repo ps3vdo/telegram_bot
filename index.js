@@ -1,5 +1,5 @@
 const { Telegraf } = require('telegraf')
-const bot = new Telegraf('1624459162:AAHHq3De38qWSvN2MoMHDyZtdV2x22WGqMs');
+const bot = new Telegraf('');
 /*bot.on('message', ctx => {
     msg = ctx.message.text.toUpperCase()
     ctx.reply('Все говорят '+ msg + ', а ты купи слона ))')});*/
