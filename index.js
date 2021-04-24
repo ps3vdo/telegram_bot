@@ -1,18 +1,18 @@
-const { Telegraf } = require('telegraf')
-const bot = new Telegraf('1624459162:AAHHq3De38qWSvN2MoMHDyZtdV2x22WGqMs');
+const dotenv = require('dotenv').config();
+const { Telegraf } = require('telegraf');
+const bot = new Telegraf(process.env.key);
 // bot.on('message', ctx => {
 //     msg = ctx.message.text.toUpperCase()
 //     ctx.reply('Все говорят '+ msg + ', а ты купи слона ))')});
 	
-	
-bot.hears(['привет', 'Привет'], ctx => ctx.reply('Привет!\n Напиши орел или решка.\n Или можешь сгенерировать пароль из 12 символов, просто напиши "Пароль".\n Или напиши "пример" (операторы и операнды пиши через пробел!).'));
+bot.hears(['привет', 'Привет'], ctx => ctx.reply('Привет!\n Напиши орел или решка.'));
 bot.hears(['орел', 'решка', 'Орел', 'Решка','орёл', 'Орёл'], ctx => {
     const num = Math.floor(Math.random() * 2);
     ctx.reply(num == 0 ? 'Орел' : 'Решка')
 })
 bot.hears(['pass', 'Pass', 'Пароль', 'пароль'], ctx => {
     let pass = '';
-    const simbols = '0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM!#$%^&'
+    const simbols = '0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM!#$%^&';
     for (let i = 0; i < 12; i++) {
         pass += simbols[Math.floor(Math.random() * simbols.length)]
     }
@@ -68,8 +68,9 @@ let exitNum = [];
 let arrayTemp = [];
 try {
 	for (let i of str) {
-		if (!isNumber(i) && !isOperator(i) || i === ' ') throw 'Символ не опознан. Операция остановлена';
+		if (!isNumber(i) && !isOperator(i) || i === ' ') throw new Error('Символ не опознан. Операция остановлена');
 		else if (isNumber(i)) arrayExit.push(i);
+		else if (arrayExit.length === 0 && isOperator(i))throw new Error('Исправьте выражение')
 		else if (isOperator(i)) {
 			if (operatorArrTmp.length === 0) operatorArrTmp.push(i);
 			else if (isOperatorBracket(i)) {
@@ -105,7 +106,7 @@ try {
 				}
 			}
 		}
-		else throw 'Символ не опознан. Операция остановлена';
+		else throw new Error('Символ не опознан. Операция остановлена');
 	}
 	while (operatorArrTmp.length !== 0) {
 		arrayExit.push(operatorArrTmp.pop());
@@ -147,8 +148,8 @@ try {
 	ctx.reply('Сумма выражения: ' + arrayExit);
 	console.log('Сумма выражения:' + arrayExit);
 } catch (e) {
-	console.error(e);
-	ctx.reply(e);
+	console.error(e.message);
+	ctx.reply(e.message);
 }
 }
 )
